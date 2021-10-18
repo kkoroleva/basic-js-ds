@@ -60,6 +60,7 @@ module.exports = class BinarySearchTree {
         }
       }
     }
+    return null;
   }
 
   remove(data) {
@@ -74,7 +75,7 @@ module.exports = class BinarySearchTree {
   min() {
     while (this.curr.left != null) {
      this.curr = this.curr.left;
-      min();
+      this.min();
     }
     return this.curr.value;
   }
