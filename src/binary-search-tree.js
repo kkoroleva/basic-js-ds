@@ -26,19 +26,24 @@ module.exports = class BinarySearchTree {
   add(data) {
     if (this.isVoid()) {
       this._root = new Node(data);
-      this.curr = this._root;
-    } else {
-      let curr = this._root;
-      while (curr.next != null) {
-        if (curr.data > data) {
-          curr = curr.left;
-        } else {
-          curr = curr.right;
-        }
+      return;
+    }
+
+    let prev = null;
+    let curr = this._root;
+    while (curr != null) {
+      if (curr.data === data) {
+        return;
       }
-      if (curr.data > data) {
-        curr.left = new Node(data);
-      } else curr.right = new Node(data);
+
+      prev = curr;
+      curr = curr.data > data ? curr.left : curr.right;
+    }
+
+    if (prev.data > data) {
+      prev.left = new Node(data);
+    } else {
+      prev.right = new Node(data);
     }
   }
 
@@ -47,10 +52,10 @@ module.exports = class BinarySearchTree {
   }
 
   find(data) {
-    if (this._root != null) {
+    if (this._root !== null) {
       let curr = this._root;
 
-      while (curr != null) {
+      while (curr !== null) {
         if (curr.data === data) {
           return curr;
         } else if (curr.data > data) {
@@ -64,27 +69,43 @@ module.exports = class BinarySearchTree {
   }
 
   remove(data) {
-    if (!this.isVoid) {
-      let el = this.find(data);
-      if (el.left === null && el.right === null) {
-        
-      }
+    if (this.isVoid()) {
+      return;
+    }
+
+    let node = this.find(data);
+    if (node === null) {
+      return;
+    }
+
+    if (node.left === null && node.right === null) {
+
     }
   }
 
   min() {
-    while (this.curr.left != null) {
-     this.curr = this.curr.left;
-      this.min();
+    if (this.isVoid()) {
+      return undefined;
     }
-    return this.curr.value;
+
+    let curr = this._root;
+    while (curr.left != null) {
+     curr = curr.left;
+    }
+
+    return curr.value;
   }
 
   max() {
+    if (this.isVoid()) {
+      return undefined;
+    }
 
+    let curr = this._root;
     while (curr.rigth != null) {
       curr = curr.right;
     }
+
     return curr.value;
   }
 
